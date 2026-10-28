@@ -1,0 +1,79 @@
+{
+  "version": 2,
+  "frameworks": [
+    {
+      "id": "北极星",
+      "name": "观点破题",
+      "aliases": [
+        "北极星"
+      ],
+      "description": "用不同判断开场，以原话和证据讲清道理",
+      "shortDescription": "不同判断，用原话论证"
+    },
+    {
+      "id": "四喜",
+      "name": "四维信任",
+      "aliases": [
+        "四喜",
+        "大四喜",
+        "思维信任"
+      ],
+      "description": "兼顾破圈、人设、专业与转化",
+      "shortDescription": "破圈、人设、专业、转化"
+    },
+    {
+      "id": "抄近路",
+      "name": "方法直给",
+      "aliases": [
+        "抄近路"
+      ],
+      "description": "讲清方法步骤，用具体例子帮助理解",
+      "shortDescription": "清楚步骤，具体例子"
+    },
+    {
+      "id": "消费心理",
+      "name": "痛点解答",
+      "aliases": [
+        "消费心理"
+      ],
+      "description": "从客户问题讲到答案、依据与下一步",
+      "shortDescription": "讲清问题和解决路径"
+    },
+    {
+      "id": "情绪",
+      "name": "情绪共鸣",
+      "aliases": [
+        "情绪"
+      ],
+      "description": "表达共同感受，保留必要停顿与留白",
+      "shortDescription": "保留感受和表达"
+    },
+    {
+      "id": "业务传记",
+      "name": "人物故事",
+      "aliases": [
+        "业务传记"
+      ],
+      "description": "用与业务有关的经历、转折和结果建立信任",
+      "shortDescription": "经历与业务的关系"
+    },
+    {
+      "id": "云参访",
+      "name": "现场探访",
+      "aliases": [
+        "云参访"
+      ],
+      "description": "按客户关心的顺序展示现场、实力与服务",
+      "shortDescription": "用现场展示业务"
+    },
+    {
+      "id": "业务硬控",
+      "name": "决策问答",
+      "aliases": [
+        "业务硬控"
+      ],
+      "description": "通过必要问答，回应客户选择前的疑虑",
+      "shortDescription": "回答客户的选择疑虑"
+    }
+  ]
+}

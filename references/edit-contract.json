@@ -1,0 +1,26 @@
+{
+  "format": "typed-source-edit-v1",
+  "required": ["summary"],
+  "optional": {
+    "order": "按最终顺序列出全部保留原句ID，不能重复。未列出的原句可恢复，不销毁。",
+    "removeWords": [{"id":"实际原句ID","indices":[0],"quote":"索引对应的完整原字串；首版仅草稿候选，导出拒绝未迁入的逐词删音。"}],
+    "restoreWords": [{"id":"实际原句ID","indices":[0],"quote":"索引对应的完整原字串"}],
+    "subtitles": [{"id":"实际原句ID","index":0,"original":"原识别词","text":"校正后的字幕，只改显示"}],
+    "subtitleSpans": [{"id":"实际原句ID","indices":[0,1],"quote":"连续索引对应的完整原字","text":"核对原声后的完整词语或句段，可与原字数不同；只改显示，不删声音。不用纯省略号或标点隐藏原话。"}],
+    "settings": {
+      "captionsEnabled":"true或false；是否添加自动字幕，与标题独立",
+      "titleEnabled":"true或false；是否添加画面标题，可与字幕同时关闭",
+      "title":"不超过120字的准确短标题，推荐28字内",
+      "name":"姓名",
+      "intro":"实际身份介绍，未确认留空",
+      "framework":"rules提供的框架展示名",
+      "voice":"0到4数字，人声音量，默认1",
+      "musicVolume":"0到1数字，默认0.07",
+      "musicFile":"本次用户提供的配乐绝对路径，或null",
+      "speed":"0.5到2数字，默认1；不能为凑短问时长擅自加速",
+      "identityRanges":[{"start":2,"end":7}]
+    }
+  },
+  "forbidden":"原声音频时间、命令、脚本、任意资产下载地址、凭据；不要将示例ID当当前素材",
+  "revision":"apply必须使用最近read返回的revision；过期则重新读取，不覆盖。"
+}

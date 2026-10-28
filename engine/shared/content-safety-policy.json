@@ -1,0 +1,6 @@
+{
+  "version": 1,
+  "beepTerms": ["操你妈", "草你妈", "傻逼", "妈的", "他妈的"],
+  "sources": ["https://github.com/stultuss/sensitive-words-filter", "https://www.ffmpeg.org/ffmpeg-filters.html", "https://www.samr.gov.cn/ggjgs/tzgg/art/2023/art_183b5cb48d9e4f0dba67f9f912a913ba.html"],
+  "note": "采用规范化匹配思路，自行实现，不复制第三方代码或大词库。上下文风险由前置语义检查提示，创作者逐条决定；词条不代表平台官方禁词。"
+}

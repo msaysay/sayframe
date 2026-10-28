@@ -1,0 +1,29 @@
+{
+  "format":"source-bound-directions-v1",
+  "workflow":"完整read和rules → propose保存几个真实方向 → 用户选定 → choose-plan应用 → export生成同一电影 → 自然语言apply修改同一工程。",
+  "proposal":{
+    "catalogVersion":"rules.methodology.version的整数",
+    "sourceSha256":"本次read.sourceSha256",
+    "directions":[{
+      "id":"小写字母开头的唯一短ID",
+      "title":"48字内真实准确标题，不虚构台词或保证",
+      "audience":"本片针对谁；不确定如实说明",
+      "goal":"本片回答哪个具体问题，认知/信任/转化等目的",
+      "methods":["rules.methodology.methods中的实际英文ID，按需选，不全套硬填"],
+      "why":"选这个方向、调整顺序的理由",
+      "order":["按成片顺序列出真实read.segments.id，不重复，不提供时间"],
+      "beats":[{"role":"opening/support/ability/audience/ending/story/bridge其一","ids":["该角色对应的真实原句ID，顺序与order相同"],"reason":"这些原话为何承担此作用"}],
+      "evidence":[{"id":"order中每个ID恰好一次","quote":"对应segment.text完整逐字复制，不改字不截条件"}],
+      "gaps":["没有的能力证据、真实入口或需要核对的地方；可空，不把缺口说成已完成"],
+      "review":{"opening":"为什么成立，是否需要短问","support":"原话怎样支持判断，或说明缺口","ability":"本人具体依据与关系，或说明没有","ending":"真实收束方式与入口边界"}
+    }]
+  },
+  "constraints":[
+    "1至6方向，通常2至4，不凑数；完全相同内容顺序不能重复报多个方向。",
+    "所有保留原句均须分配作用；opening须是order前缀；原话可兼具多种作用，但声音只出现一次。",
+    "开头超过三秒只提示，不剪断、改写或加速；完整语义和必要条件优先。",
+    "语义review为宿主模型自检，不能伪称独立审查；程序仅证明引用与结构。",
+    "用户已有明确授权直接剪，可执行choose-plan+export；用户要先看方案则停止等待其选择。",
+    "方案保存不修改当前视频；选择操作可撤销。较新手改使旧方案失效，必须重新规划。"
+  ]
+}

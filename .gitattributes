@@ -1,0 +1,2 @@
+# The install manifest hashes exact bytes. Do not rewrite line endings on checkout.
+* -text
