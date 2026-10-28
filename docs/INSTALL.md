@@ -17,7 +17,7 @@ are the same in the ZIP and source repository.
 
 ```powershell
 git clone https://github.com/msaysay/sayframe.git
-cd sayframe-workbuddy
+cd sayframe
 python scripts/install.py
 ```
 

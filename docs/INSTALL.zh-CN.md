@@ -13,7 +13,7 @@
 
 ```powershell
 git clone https://github.com/msaysay/sayframe.git
-cd sayframe-workbuddy
+cd sayframe
 python scripts/install.py
 ```
 
