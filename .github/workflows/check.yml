@@ -1,0 +1,41 @@
+name: Source and render checks
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.11'
+      - run: sudo apt-get update && sudo apt-get install -y ffmpeg
+      - run: python -m pip install numpy==2.2.6 Pillow==11.3.0 jieba==0.42.1
+      - run: python scripts/verify_public.py
+      - run: python -m unittest discover -s tests -v
+      - run: python scripts/build_release.py
+  publish-preview:
+    needs: check
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.11'
+      - run: python scripts/verify_public.py
+      - run: python scripts/build_release.py
+      - name: Publish versioned preview after checks
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          VERSION=$(python -c "import json;print(json.load(open('manifest.json'))['version'])")
+          if gh release view "v${VERSION}" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo "Version already published; existing assets are preserved."
+          else
+            gh release create "v${VERSION}" "dist/SAYFRAME-WorkBuddy-${VERSION}.zip" dist/SHA256SUMS --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" --prerelease --title "SAYFRAME WorkBuddy ${VERSION} Preview" --notes-file CHANGELOG.md
+          fi
