@@ -1,0 +1,64 @@
+name: Publish verified source bundle
+on:
+  push:
+    paths:
+      - 'SAYFRAME-WorkBuddy-GitHub-Source-0.4.0-sayframe.zip'
+      - '.github/workflows/bootstrap-source.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: sayframe-source-publication
+  cancel-in-progress: false
+jobs:
+  publish:
+    if: github.repository == 'msaysay/sayframe'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.11'
+      - name: Verify and expand the reviewed source bundle
+        run: |
+          python - <<'PY'
+          import hashlib,json,zipfile
+          from pathlib import Path
+          bundle=Path('SAYFRAME-WorkBuddy-GitHub-Source-0.4.0-sayframe.zip')
+          if bundle.exists():
+              assert hashlib.sha256(bundle.read_bytes()).hexdigest()=='ef5a0f9756634bb8f4ee347ab23931a072775fb829ef9102f579513f35731215'
+              with zipfile.ZipFile(bundle) as archive:
+                  manifest=json.loads(archive.read('sayframe-workbuddy/manifest.json'))
+                  for name,sha in manifest['files'].items():
+                      assert hashlib.sha256(archive.read('sayframe-workbuddy/'+name)).hexdigest()==sha,name
+                  for member in archive.infolist():
+                      assert member.filename.startswith('sayframe-workbuddy/')
+                      relative=Path(member.filename).relative_to('sayframe-workbuddy')
+                      assert not relative.is_absolute() and '..' not in relative.parts
+                      if member.is_dir() or '.github' in relative.parts: continue
+                      target=Path('.')/relative
+                      target.parent.mkdir(parents=True,exist_ok=True)
+                      target.write_bytes(archive.read(member))
+          PY
+      - run: sudo apt-get update && sudo apt-get install -y ffmpeg
+      - run: python -m pip install numpy==2.2.6 Pillow==11.3.0
+      - run: python scripts/verify_public.py
+      - run: python -m unittest discover -s tests -v
+      - run: python scripts/build_release.py
+      - name: Commit the verified public source
+        run: |
+          python -c "from pathlib import Path;p=Path('SAYFRAME-WorkBuddy-GitHub-Source-0.4.0-sayframe.zip');p.unlink(missing_ok=True)"
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          if ! git diff --cached --quiet; then
+            git commit -m 'Publish verified SAYFRAME WorkBuddy source and bilingual documentation'
+            git push origin HEAD:main
+          fi
+      - name: Publish the installable preview
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if ! gh release view v0.4.0 --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            gh release create v0.4.0 dist/SAYFRAME-WorkBuddy-0.4.0.zip dist/SHA256SUMS --repo "$GITHUB_REPOSITORY" --target "$(git rev-parse HEAD)" --prerelease --title 'SAYFRAME WorkBuddy 0.4.0 Preview' --notes-file CHANGELOG.md
+          fi
